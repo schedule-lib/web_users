@@ -1,0 +1,133 @@
+.scheduleContainer {
+  background: var(--white);
+  box-shadow: var(--panel-shadow);
+
+  border-radius: 0.2rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  padding: 2.5rem 2rem;
+}
+
+div.serviceContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+div.serviceGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+div.serviceGroup div.service {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 2.7rem;
+}
+
+div.serviceGroup div.service strong {
+  font-size: 1.2rem;
+  color: var(--secondary);
+  margin-bottom: 0.4rem;
+}
+
+div.serviceGroup div.service select {
+  border-radius: 0.6rem;
+  padding: 0.3rem 0.3rem;
+  width: 20rem;
+}
+
+div.serviceGroup form {
+  padding-left: 0.3rem;
+}
+
+form div.groupBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.7rem;
+}
+
+form div.groupBox label {
+  color: var(--secondary);
+
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+form div.groupBox input {
+  width: fit-content;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  font-size: 1.4rem;
+}
+
+div.serviceContainer div.docsNeededs {
+  display: flex;
+  flex-direction: column;
+}
+div.serviceContainer div.docsNeededs > div {
+  background: var(--header-background);
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem 0.5rem;
+}
+div.serviceContainer div.docsNeededs strong {
+  font-size: 1.2rem;
+  border-radius: 0.3rem;
+  background: var(--text-highlight);
+  padding: 1rem 1.2rem;
+}
+div.serviceContainer div.docsNeededs span {
+  margin-left: 1rem;
+}
+
+div.controls {
+  text-align: center;
+}
+
+button.default {
+  border: 0;
+  border-radius: 0.6rem;
+
+  height: 4.4rem;
+  width: 20.7rem;
+  margin-top: 3.3rem;
+
+  color: var(--background);
+  background: var(--primary);
+  font-size: 1.3rem;
+
+  transition: filter 2s ease-in;
+}
+
+button.default:hover,
+button.default:focus,
+button.default:active {
+  filter: brightness(0.9);
+}
+
+@media (max-width: 520px) {
+  div.serviceContainer div.docsNeededs {
+    display: none;
+  }
+
+  div.serviceContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  div.serviceGroup {
+    margin: 0 auto;
+  }
+}
+@media (max-width: 371px) {
+  div.serviceGroup {
+    width: 100%;
+  }
+
+  form div.groupBox input {
+    width: 100%;
+  }
+}

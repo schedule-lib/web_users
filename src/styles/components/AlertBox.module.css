@@ -1,0 +1,54 @@
+div.alertContainer {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  /* box-shadow: var(--panel-shadow); */
+  box-shadow: 2rem 2rem 2rem -1px;
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  background: var(--primary);
+  border-radius: 0.2rem;
+
+  min-height: 12rem;
+  padding: 1rem 1rem;
+}
+
+.hr {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+div.alertContainer > div strong {
+  font-size: 1.3rem;
+  color: var(--white);
+  line-height: 1.6rem;
+}
+div.alertContainer > div strong.center {
+  display: block;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+div.alertContainer > div p {
+  color: var(--white);
+  font-size: 1.1rem;
+  line-height: 1.6rem;
+}
+
+div.alertBottom {
+  margin: 0 auto;
+}
+
+div.alertContainer button {
+  border: 0;
+  height: 3rem;
+  min-width: 10rem;
+  border-radius: 0.3rem;
+
+  color: var(--secondary);
+  background: var(--green);
+
+  font-size: 1.3rem;
+}

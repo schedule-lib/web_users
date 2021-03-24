@@ -1,0 +1,143 @@
+div.container {
+  height: 100vh;
+  /* padding: 2.5rem 2rem; */
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10;
+}
+
+div.modalActived {
+  height: 100vh;
+
+  display: block;
+  background: var(--text);
+}
+
+.container div.landInfo {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+
+  justify-content: center;
+}
+
+div.landInfo strong {
+  width: 40.7rem;
+  text-align: left;
+  font-weight: bold;
+  font-size: 4rem;
+  color: var(--secondary);
+  margin-bottom: 3.2rem;
+}
+
+div.landInfo span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+div.landInfo button {
+  border: 0;
+  border-radius: 0.6rem;
+
+  height: 4.4rem;
+  width: 20.7rem;
+  margin: 3.3rem 0;
+
+  color: var(--background);
+  background: var(--primary);
+  font-size: 1.3rem;
+}
+div.landInfo button:hover,
+div.landInfo button:active {
+  filter: brightness(0.9);
+}
+
+div.landIlustry {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.landIlustry img {
+  width: 100%;
+  /* box-shadow: var(--panel-shadow); */
+}
+/* ---------------------- MIDIA QUERIES -------------------- */
+
+@media (max-width: 1080px) {
+  div.landInfo strong {
+    width: 40.7rem;
+    font-size: 3rem;
+  }
+
+  div.landInfo span {
+    font-size: 1rem;
+  }
+
+  div.landIlustry img {
+    width: 90%;
+  }
+}
+
+@media (max-width: 925px) {
+  .container div.landInfo {
+    padding: 1.2rem;
+  }
+}
+
+@media (max-width: 860px) {
+  div.landIlustry {
+    padding: 0 1rem;
+  }
+
+  div.landInfo button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  div.container {
+    display: grid;
+    gap: 10;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas:
+      'ASIDE'
+      'MAIN';
+  }
+
+  .container div.landInfo {
+    grid-area: MAIN;
+  }
+
+  div.landIlustry {
+    width: 10rem;
+    padding: 2rem 0;
+
+    grid-area: ASIDE;
+  }
+
+  div.landInfo button {
+    position: relative;
+    margin: 3.3rem auto;
+  }
+
+  div.landInfo span {
+    text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  div.landInfo strong {
+    width: 40.7rem;
+    font-size: 4rem;
+    text-align: center;
+  }
+}

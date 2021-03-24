@@ -1,0 +1,68 @@
+div.resumeContainer {
+  height: 100%;
+  line-height: 2rem;
+}
+
+div.modalBox {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.6rem 2rem;
+  font-size: 1.1rem;
+
+  background: var(--white);
+  color: var(--black);
+  box-shadow: var(--panel-shadow);
+}
+
+div.headerLogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-bottom: 1rem;
+}
+
+div.headerLogo > div {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+div.containerMap > div {
+  margin-bottom: 1rem;
+}
+
+ul li span.hit {
+  margin-right: 2rem;
+}
+
+div.loadFile {
+  margin: 0 auto;
+  margin-top: 4rem;
+  text-align: center;
+}
+
+div.loadFile button {
+  border: 0;
+  height: 3rem;
+  border-radius: 0.6rem;
+  width: 20rem;
+  font-size: 1.3rem;
+
+  color: var(--background);
+  background: var(--primary);
+}
+div.loadFile button:hover,
+div.loadFile button:active,
+div.loadFile button:focus {
+  background: var(--blue-dark);
+}
+
+@media (max-width: 240px) {
+  div.loadFile button {
+    width: 100%;
+  }
+}
+
+img.imgLogo {
+  width: 7rem;
+}

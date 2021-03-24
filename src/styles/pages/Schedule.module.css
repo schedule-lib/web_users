@@ -1,0 +1,343 @@
+main.mainScheduler {
+  margin: 0 auto;
+  margin-top: 3rem;
+  max-width: 990px;
+  display: flex;
+  flex-direction: column;
+}
+
+main div.topSchedule {
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
+}
+
+div.localGroup div#top {
+  border-bottom: 2px solid var(--text);
+  margin-bottom: 2rem;
+}
+
+div.localGroup div#bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+div.localGroup div#bottom > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-right: 2rem;
+}
+div#bottom > div span {
+  color: var(--secondary);
+  font-size: 1.3rem;
+  padding: 0.3rem 0;
+}
+div#bottom > div select {
+  padding: 0.3rem 0.1rem;
+}
+
+/* Location area */
+div.addressDescription {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 1.5rem;
+}
+
+div.addressDescription hr + div#addrTop {
+  margin-top: 2rem;
+}
+
+div.addressDescription div#addrTop {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+div.addressDescription div#addrTop span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-left: 0.2rem;
+}
+
+div.addressDescription div#addrBottom {
+  display: flex;
+  flex-direction: column;
+  margin: 0.3rem 0.7rem;
+}
+div.addressDescription div#addrBottom span {
+  color: var(--blue);
+  font-weight: 500;
+  line-height: 1.3rem;
+}
+
+/* Shceduler TOP */
+
+main div.scheduleBox {
+  margin-top: 3.7rem;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+div.scheduleBox div.calendarControler {
+  display: flex;
+  justify-content: space-between;
+
+  max-width: 30.4rem;
+  margin-bottom: 1rem;
+}
+
+div.calendarControler div.calendarTop {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+button.buttonController {
+  width: 7.8rem;
+  height: 3rem;
+
+  border: 0.1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 0.6rem;
+
+  transition: filter 2s ease-out;
+}
+button.buttonController:hover,
+button.buttonController:active,
+button.buttonController:focus {
+  filter: brightness(90%);
+  border: 0;
+  background: var(--text);
+  color: var(--white);
+  font-weight: 500;
+}
+button.buttonController + button {
+  margin-left: 1.4rem;
+}
+button.buttonController[disabled]:hover,
+button.buttonController[disabled]:active,
+button.buttonController[disabled]:focus {
+  cursor: not-allowed;
+  background: var(--header-background);
+  color: var(--white);
+}
+
+div.calendarControler div.calendarBottom > strong {
+  color: black;
+}
+div.calendarBottom div.month > strong {
+  font-size: 1.4rem;
+}
+div.calendarBottom div.month {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+
+  border: 0.1rem solid;
+}
+
+/* SCHEDULER... */
+
+main div.scheduleBox div.calendarDescription {
+  margin-top: 1rem;
+}
+
+main div.scheduleBox div.calendarDescription div.calendarHitDescr {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+div.calendarDescription div.calendarHitDescr > div {
+  display: flex;
+  align-items: center;
+  color: var(--secondary);
+
+  margin: 0.7rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+div.calendarDescription div.calendarHitDescr > div > div {
+  width: 3rem;
+  height: 1.5rem;
+  margin-right: 0.3rem;
+
+  border: 0.1rem solid rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+div#detailAvailable {
+  background: var(--header-background);
+}
+div#detailUnavailable {
+  background: var(--red);
+}
+div#detailSelected {
+  background: var(--green);
+}
+
+/* ----- CALENDAR GROUP ----- */
+main div.scheduleBox div.calendarGroup {
+  width: 600px;
+  /* height: 256px; */
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: var(--panel-shadow);
+}
+
+div.calendarGroup div.calendarHitMapWeek {
+  display: flex;
+  height: 2.1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+div.calendarHitMapWeek > div {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+div.calendarHitMapDays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+}
+div.calendarHitMapDays > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 1.2rem 0.5rem;
+}
+div.calendarHitMapDays > div:hover,
+div.calendarHitMapDays > div:active,
+div.calendarHitMapDays > div:focus {
+  filter: brightness(90%);
+  background: var(--white);
+}
+
+div.calendarGroup div.calendarHitMapDays > div.available {
+  background: var(--gray-line);
+}
+div.calendarGroup div.calendarHitMapDays > div.unavailable {
+  background: var(--red);
+  cursor: not-allowed;
+}
+div.calendarGroup div.calendarHitMapDays > div.selected {
+  box-sizing: border-box;
+
+  background: var(--green);
+  color: black;
+  border: 0.2rem solid rgba(0, 0, 0, 01);
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+div.calendarHitMapDays > div#dayChoosed {
+  background-color: var(--green);
+}
+
+div.scheduleBox div.floatBox {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  width: 20.8rem;
+  height: 4.4rem;
+
+  display: flex;
+  justify-content: center;
+}
+
+div.scheduleBox div.floatBox a {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  border-radius: 0.6rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+
+  color: var(--background);
+  background: var(--primary);
+}
+div.scheduleBox div.floatBox a:hover,
+div.scheduleBox div.floatBox a:focus {
+  filter: brightness(90%);
+}
+
+/* ----- */
+
+@media (max-width: 1010px) {
+  main.mainScheduler {
+    padding: 0 2rem;
+  }
+
+  div.addressDescription {
+    display: none;
+  }
+
+  div.scheduleBox div.floatBox {
+    top: -9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  main.mainScheduler div.scheduleBox {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  /* div.scheduleBox div.calendarGroup {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  } */
+
+  div.calendarDescription {
+    width: 100%;
+  }
+}
+
+@media (max-width: 570px) {
+  div.scheduleBox div.floatBox {
+    position: initial;
+    margin: 1.6rem 0;
+  }
+
+  div.scheduleBox div.calendarControler div.calendarTop {
+    margin-right: 5px;
+  }
+}
+
+@media (max-width: 390px) {
+  main.mainScheduler {
+    padding: 0 1rem;
+  }
+
+  main.mainScheduler div.scheduleBox {
+    margin-top: 2rem;
+  }
+
+  main div.scheduleBox div.calendarControler {
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    max-width: 100%;
+    width: 100%;
+  }
+
+  div.scheduleBox div.calendarControler div.calendarTop {
+    margin-bottom: 1rem;
+  }
+}
