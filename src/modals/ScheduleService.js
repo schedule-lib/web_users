@@ -1,27 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, withRouter } from 'next/router';
+
+import api from '../services/api';
 
 // import Header from '../components/Header';
 import styles from '../styles/modals/ScheduleServices.module.css';
 
 function ScheduleService() {
-  const [serviceName, setServiceName] = useState('bi');
-  const [name, setName] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [bi, setBI] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [data, setData] = useState([]);
+  const [servicesIsLoading, setServicesIsLoading] = useState(true);
+  const [serviceName, setServiceName] = useState('');
+  const [required, setRequired] = useState(() => {
+    const resume = {
+      serviceName,
+    };
+
+    return resume;
+  });
 
   const uid = '0934tnwd9432rml02345';
   const router = useRouter();
 
   function handleSubmit() {
-    if (serviceName && name && birthday && telefone) {
-      router.push(`/schedule?${uid}`);
+    if (serviceName) {
+      router.push(`/schedule?session_=${uid}`);
       return;
     }
 
     alert('Preencha todos os campos necessários');
   }
+  const getDatas = useCallback(async () => {
+    setServicesIsLoading(true);
+
+    try {
+      const response = await api.get('/services');
+      const { data } = response;
+
+      const serialized = data.map((service) =>
+        Object.assign(service, {
+          addresses: JSON.parse(service.addresses),
+          months: JSON.parse(service.months),
+          fields_to_fill: JSON.parse(service.fields_to_fill),
+        })
+      );
+
+      setData(serialized);
+      setServicesIsLoading(false);
+    } catch (error) {
+      alert('Connection Error - ' + error.message);
+    }
+  }, [uid]);
+
+  useEffect(() => {
+    getDatas();
+  }, []);
 
   return (
     <div className={styles.scheduleContainer}>
@@ -34,64 +66,35 @@ function ScheduleService() {
               id="service"
               onChange={(e) => setServiceName(e.target.value)}
             >
-              <option default value={serviceName}>
-                renovar BI
-              </option>
+              {servicesIsLoading ? (
+                <option default>CARREGANDO...</option>
+              ) : (
+                data.map((service) => (
+                  <option key={service.id} value={serviceName}>
+                    {service.name}
+                  </option>
+                ))
+              )}
             </select>
           </div>
 
           <form action="#" method="post">
-            <div className={styles.groupBox}>
-              <label forAction="name">Número do BI</label>
-              <input
-                value={bi}
-                onChange={(e) => setBI(e.target.value)}
-                placeholder="ex: 2431-234-234-3434"
-                type="text"
-                name="bi"
-                id="bi"
-                required
-              />
-            </div>
-
-            <div className={styles.groupBox}>
-              <label forAction="name">Nome completo</label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="ex: elias alexandre"
-                type="text"
-                name="name"
-                id="name"
-                required
-              />
-            </div>
-
-            <div className={styles.groupBox}>
-              <label forAction="birthday">Data de nascimento</label>
-              <input
-                value={birthday}
-                onChange={(e) => setBirthday(e.target.value)}
-                placeholder="ex: elias alexandre"
-                type="date"
-                name="birthday"
-                id="birthday"
-                required
-              />
-            </div>
-
-            <div className={styles.groupBox}>
-              <label forAction="number">Telefone</label>
-              <input
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-                placeholder="ex: (19) 9xx.xxx.xxx"
-                type="text"
-                name="number"
-                id="number"
-                required
-              />
-            </div>
+            {servicesIsLoading ? (
+              <h1>CARREGANDO...</h1>
+            ) : (
+              data.map((service) => {
+                return service.fields_to_fill.map((fields) => (
+                  <div key={Math.random() * 10} className={styles.groupBox}>
+                    <label htmlFor="name">{fields.label}</label>
+                    <input
+                      placeholder="compo necessário"
+                      type={fields.type}
+                      required
+                    />
+                  </div>
+                ));
+              })
+            )}
           </form>
         </div>
         <div className={styles.docsNeededs}>
