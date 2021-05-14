@@ -1,6 +1,6 @@
 div.container {
   height: 100vh;
-  /* padding: 2.5rem 2rem; */
+  padding: 2.5rem 2rem;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
