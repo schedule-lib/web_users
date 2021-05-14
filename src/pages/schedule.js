@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Select from 'react-select';
+import api from '../services/api';
 
 // Utils
 import determineCurrentMonth from '../utils/determineMonthName';
@@ -10,6 +11,9 @@ import styles from '../styles/pages/Schedule.module.css';
 import Header from '../components/Header';
 
 export default function Home() {
+  const [data, setData] = useState({});
+  const [servicesIsLoading, setServicesIsLoading] = useState(true);
+
   const [isCompleted, setIsCompleted] = useState(false);
   const [province, setProvince] = useState(null);
   const [servicePoint, setServicePoint] = useState(null);
@@ -128,6 +132,30 @@ export default function Home() {
     }
   }
 
+  const getDatas = useCallback(async () => {
+    setServicesIsLoading(true);
+
+    try {
+      const response = await api.get(`/services/search?=${serviceName}`);
+      const { data } = response;
+
+      Object.assign(data, {
+        addresses: JSON.parse(data.addresses),
+        months: JSON.parse(data.months),
+        required_field: JSON.parse(data.required_field),
+      });
+
+      setData(data);
+      setServicesIsLoading(false);
+    } catch (error) {
+      alert('Connection Error - ' + error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    getDatas();
+  }, []);
+
   useEffect(() => {
     handleCompleted();
   }, [handleCompleted]);
@@ -145,11 +173,11 @@ export default function Home() {
 
             <div id={styles.bottom}>
               <div>
-                <span>Provincia de atendimento</span>
+                <span>Província de atendimento</span>
                 <Select
                   onChange={handleChangeProvince}
                   value={province}
-                  name="provincia"
+                  name="province"
                   options={provinceOptions}
                 />
               </div>
