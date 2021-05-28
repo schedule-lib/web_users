@@ -10,8 +10,9 @@ import styles from '../styles/pages/Schedule.module.css';
 // COMPONENTs
 import Header from '../components/Header';
 
-const Home = () => {
-  const [data, setData] = useState({});
+const Home = ({ episodes }) => {
+  const [data, setData] = useState(episodes);
+  const [serviceID] = useState('7b8a9988-fa11-4dc7-9ffe-6c3937fd03f2');
   const [servicesIsLoading, setServicesIsLoading] = useState(true);
 
   const [isCompleted, setIsCompleted] = useState(false);
@@ -24,6 +25,21 @@ const Home = () => {
     return determineCurrentMonth(currentMonth);
   });
   const [dayChoosed, setDayChoosed] = useState(0);
+
+  const [provinceOptions, setProvinceOptions] = useState(() => {
+    const dto = servicesIsLoading
+      ? [{ value: 'carregando', label: 'carregando...' }]
+      : [];
+
+    return dto;
+  });
+  const [provinceOptions, setProvinceOptions] = useState(() => {
+    const dto = servicesIsLoading
+      ? [{ value: 'carregando', label: 'carregando...' }]
+      : [];
+
+    return dto;
+  });
 
   // CALENDAR INFO
   const days = [
@@ -67,14 +83,31 @@ const Home = () => {
     { id: 'sabado', name: 'SÁBADO' },
     { id: 'domingo', name: 'DOMINGO' },
   ];
-  const provinceOptions = [
-    { value: 'luanda', label: 'Luanda' },
-    { value: 'benguela', label: 'Benguela' },
-  ];
   const serviceOptions = [
     { value: 'kilamba_ kiaxi', label: 'Kilamba kiaxi' },
     { value: 'murro_bento', label: 'Murro bento' },
   ];
+
+  const setFormattedSelectionData = useCallback(async () => {
+    const provinceFormatted = data?.addresses.map((address) => {
+      return {
+        label: String(address.province),
+        value: String(address.province)
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, ''),
+      };
+    });
+    const pointFormatted = data?.addresses.map((address) => {
+      return {
+        label: String(address.point),
+        value: String(address.point)
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, ''),
+      };
+    });
+
+    setProvinceOptions(provinceFormatted);
+  }, []);
 
   // CALENDAR FUNCTIONS
   const handleCompleted = () => {
@@ -132,28 +165,8 @@ const Home = () => {
     }
   }
 
-  const getDatas = useCallback(async () => {
-    setServicesIsLoading(true);
-
-    try {
-      const response = await api.get(`/services/search?=${serviceName}`);
-      const { data } = response;
-
-      Object.assign(data, {
-        addresses: JSON.parse(data.addresses),
-        months: JSON.parse(data.months),
-        required_field: JSON.parse(data.required_field),
-      });
-
-      setData(data);
-      setServicesIsLoading(false);
-    } catch (error) {
-      alert('Connection Error - ' + error.message);
-    }
-  }, []);
-
   useEffect(() => {
-    getDatas();
+    setFormattedSelectionData();
   }, []);
 
   useEffect(() => {
@@ -308,5 +321,28 @@ const Home = () => {
     </div>
   );
 };
+
+// vai carregar de forma estática, sempre que for acessada a HOME
+
+export async function getServerSideProps() {
+  const response = await api.get(`/services/search`, {
+    params: {
+      service_name: 'Renovar pasasporte',
+    },
+  });
+  const { data } = response;
+
+  Object.assign(data, {
+    addresses: JSON.parse(data.addresses),
+    months: JSON.parse(data.months),
+    required_field: JSON.parse(data.required_field),
+  });
+
+  return {
+    props: {
+      episodes: data,
+    },
+  };
+}
 
 export default Home;
