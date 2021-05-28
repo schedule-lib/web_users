@@ -3,11 +3,8 @@ import Link from 'next/link';
 import Select from 'react-select';
 import api from '../services/api';
 
-// Utils
 import determineCurrentMonth from '../utils/determineMonthName';
-// STATICs
 import styles from '../styles/pages/Schedule.module.css';
-// COMPONENTs
 import Header from '../components/Header';
 
 const Home = ({ episodes }) => {
@@ -33,7 +30,7 @@ const Home = ({ episodes }) => {
 
     return dto;
   });
-  const [provinceOptions, setProvinceOptions] = useState(() => {
+  const [pointOptions, setPointOptions] = useState(() => {
     const dto = servicesIsLoading
       ? [{ value: 'carregando', label: 'carregando...' }]
       : [];
@@ -107,6 +104,7 @@ const Home = ({ episodes }) => {
     });
 
     setProvinceOptions(provinceFormatted);
+    setPointOptions(pointFormatted);
   }, []);
 
   // CALENDAR FUNCTIONS
