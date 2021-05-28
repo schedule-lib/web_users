@@ -209,8 +209,8 @@ const Home = ({ episodes }) => {
             </div>
             <div id={styles.addrBottom}>
               <span>{servicePoint?.label || 'Ponto de atendimento'}</span>
-              <span>Rua Dr. Antônio Álvares Lobo n*456 - Botafogo</span>
-              <span>{province?.label || 'Província'} - 345</span>
+              {/* <span>Rua Dr. Antônio Álvares Lobo n*456 - Botafogo</span> */}
+              <span>{province?.label || 'Província de atendimento'}</span>
             </div>
             <hr />
             <div id={styles.addrTop}>
