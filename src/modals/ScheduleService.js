@@ -7,7 +7,7 @@ import api from '../services/api';
 // import Header from '../components/Header';
 import styles from '../styles/modals/ScheduleServices.module.css';
 
-function ScheduleService({ history }) {
+function ScheduleService() {
   const [data, setData] = useState([]);
   const [servicesIsLoading, setServicesIsLoading] = useState(true);
   const [serviceName, setServiceName] = useState('');
@@ -82,44 +82,27 @@ function ScheduleService({ history }) {
           </div>
 
           <form action="#" method="post">
-            {servicesIsLoading ? (
-              <h1>CARREGANDO...</h1>
-            ) : (
-              <>
-                <div className={styles.groupBox}>
-                  <label htmlFor="name">Nome: </label>
-                  <input
-                    value={userName}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="ex: john due"
-                    type="text"
-                    required
-                  />
-                </div>
+            <div className={styles.groupBox}>
+              <label htmlFor="name">Nome: </label>
+              <input
+                value={userName}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="ex: john due"
+                type="text"
+                required
+              />
+            </div>
 
-                <div className={styles.groupBox}>
-                  <label htmlFor="name">Telefone: </label>
-                  <input
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="ex: 923.000.0-00"
-                    type="text"
-                    required
-                  />
-                </div>
-
-                {data?.map((service) => (
-                  <div key={Math.random() * 10} className={styles.groupBox}>
-                    <label htmlFor="name">{service.required_field.label}</label>
-                    <input
-                      placeholder="compo necessário"
-                      type={service.required_field.type}
-                      required
-                    />
-                  </div>
-                ))}
-              </>
-            )}
+            <div className={styles.groupBox}>
+              <label htmlFor="name">Telefone: </label>
+              <input
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="ex: 923.000.0-00"
+                type="text"
+                required
+              />
+            </div>
           </form>
         </div>
         <div className={styles.docsNeededs}>

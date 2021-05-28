@@ -10,7 +10,7 @@ import styles from '../styles/pages/Schedule.module.css';
 // COMPONENTs
 import Header from '../components/Header';
 
-export default function Home() {
+const Home = () => {
   const [data, setData] = useState({});
   const [servicesIsLoading, setServicesIsLoading] = useState(true);
 
@@ -307,4 +307,6 @@ export default function Home() {
       </main>
     </div>
   );
-}
+};
+
+export default Home;
