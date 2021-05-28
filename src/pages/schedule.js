@@ -80,10 +80,6 @@ const Home = ({ episodes }) => {
     { id: 'sabado', name: 'SÁBADO' },
     { id: 'domingo', name: 'DOMINGO' },
   ];
-  const serviceOptions = [
-    { value: 'kilamba_ kiaxi', label: 'Kilamba kiaxi' },
-    { value: 'murro_bento', label: 'Murro bento' },
-  ];
 
   const setFormattedSelectionData = useCallback(async () => {
     const provinceFormatted = data?.addresses.map((address) => {
@@ -190,6 +186,7 @@ const Home = ({ episodes }) => {
                   value={province}
                   name="province"
                   options={provinceOptions}
+                  instanceId="service-province"
                 />
               </div>
               <div>
@@ -199,7 +196,8 @@ const Home = ({ episodes }) => {
                   onChange={handleChangeService}
                   value={servicePoint}
                   name="service"
-                  options={serviceOptions}
+                  options={pointOptions}
+                  instanceId="services-point"
                 />
               </div>
             </div>
