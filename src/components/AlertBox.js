@@ -14,8 +14,8 @@ function AlertBox({ terminate }) {
       <div>
         <strong>Processo concluído</strong>
         <p>O seu processo foi agendado com sucesso!</p>
-        <p>Apresente o número gerado no dia de atendimento</p>
-        <strong className={styles.center}>54675467655</strong>
+        <p>Apresente o comprovante gerado no dia de atendimento</p>
+        {/* <strong className={styles.center}></strong> */}
       </div>
       <hr className={styles.hr} />
 
