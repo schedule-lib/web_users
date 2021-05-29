@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 
 import Header from '../components/Header';
 import AlertBox from '../components/AlertBox';
@@ -7,18 +7,9 @@ import AlertBox from '../components/AlertBox';
 import styles from '../styles/pages/Timer.module.css';
 
 const Timer = () => {
-  const [cacheData] = useState(() => {
-    const service_name = localStorage.getItem('service_name');
-    const month = localStorage.getItem('month');
-    const chosen_day = localStorage.getItem('chosen_day');
-
-    return {
-      chosen_day,
-      month,
-      service_name,
-    };
-  });
+  const [cacheData, setCacheData] = useState({});
   const [hourSelected, serHourSelected] = useState(Number(0));
+  const [schedule, setSchedule] = useState(null);
   const [completed, setCompleted] = useState(false);
 
   const hours = [
@@ -44,9 +35,24 @@ const Timer = () => {
     { id: 20, hour: '10:30', status: 'available' },
   ];
 
-  function handleSelectHour(hour, status) {
+  function setUserInfoInCache() {
+    localStorage.setItem('schedule_hour', schedule);
+  }
+  const handleUserInfo = useCallback(() => {
+    const service_name = JSON.parse(localStorage.getItem('service_name'));
+    const month = JSON.parse(localStorage.getItem('month'));
+    const chosen_day = JSON.parse(localStorage.getItem('chosen_day'));
+
+    setCacheData({
+      chosen_day,
+      month,
+      service_name,
+    });
+  }, []);
+  function handleSelectHour(hour, status, to) {
     if (status === 'available') {
       serHourSelected(+hour);
+      setSchedule(to);
 
       return 1;
     }
@@ -59,8 +65,8 @@ const Timer = () => {
   }
   function completeSchedule() {
     if (hourSelected !== 0) {
+      setUserInfoInCache();
       setCompleted(true);
-      // alert('HORÁRIO RESERVADO');
 
       return 1;
     }
@@ -72,6 +78,10 @@ const Timer = () => {
     setCompleted(false);
   }
 
+  useEffect(() => {
+    handleUserInfo();
+  }, []);
+
   return (
     <>
       <Header />
@@ -81,14 +91,13 @@ const Timer = () => {
         <div>
           <div className={styles.service}>
             <strong>Serviço a ser agendado</strong>
-            <span>{JSON.parse(cacheData.service_name)}</span>
+            <span>{cacheData.service_name}</span>
             <hr />
             <div>
               <p>
-                Dia {JSON.parse(cacheData.chosen_day)} de{' '}
-                {JSON.parse(cacheData.month)} de 2021
+                Dia {cacheData.chosen_day} de {cacheData.month} de 2021
               </p>
-              <span>as 17:30</span>
+              <span>as {schedule && schedule}</span>
             </div>
           </div>
 
@@ -101,7 +110,9 @@ const Timer = () => {
               {hours.map((hour) => (
                 <div
                   key={hour.id}
-                  onClick={() => handleSelectHour(hour.id, hour.status)}
+                  onClick={() =>
+                    handleSelectHour(hour.id, hour.status, hour.hour)
+                  }
                   className={styles[hour.status]}
                   id={hour.id === hourSelected && styles.hourSelected}
                 >
