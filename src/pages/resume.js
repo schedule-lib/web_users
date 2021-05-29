@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styles from '../styles/pages/Resume.module.css';
 
 const Resume = () => {
+  const [cacheData] = useState(() => {
+    const username = localStorage.getItem('username');
+    const service_name = localStorage.getItem('service_name');
+    const phone_number = localStorage.getItem('phone_number');
+    const province = localStorage.getItem('province');
+    const service_point = localStorage.getItem('service_point');
+    const month = localStorage.getItem('month');
+    const chosen_day = localStorage.getItem('chosen_day');
+
+    return {
+      username,
+      service_point,
+      chosen_day,
+      month,
+      province,
+      service_name,
+      phone_number,
+    };
+  });
+
   return (
     <div className={styles.resumeContainer}>
       <div className={styles.modalBox}>
@@ -23,7 +43,7 @@ const Resume = () => {
           <div className={styles.containerMap}>
             <div className={styles.mapGroup}>
               <strong>Código de Solicitação: 234589034850986</strong>
-              <p>Campinas/SP, 12/03/2020</p>
+              <p>Angola - LOCALIZAÇÃO/usuário</p>
             </div>
 
             <div className={styles.mapGroup}>
@@ -35,7 +55,9 @@ const Resume = () => {
                 </li>
                 <li>
                   <span className={styles.hit}>Nome completo:</span>
-                  <span className={styles.hit}>elias alexandre</span>
+                  <span className={styles.hit}>
+                    {JSON.parse(cacheData.username)}
+                  </span>
                 </li>
                 <li>
                   <span className={styles.hit}>Data de nascimento:</span>
