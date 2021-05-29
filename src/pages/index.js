@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../services/api';
 
 import Header from '../components/Header';
@@ -6,18 +6,33 @@ import styles from '../styles/Home.module.css';
 import ScheduleService from '../modals/ScheduleService';
 
 export default function Home({ episodes }) {
-  const [isActived, setIsActived] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [userPosition, setUserPosition] = useState({});
 
   function handleModal() {
-    setIsActived(!isActived);
+    if (!isActive && userPosition?.latitude) {
+      localStorage.setItem('user_position', JSON.stringify(userPosition));
+    }
+    setIsActive(!isActive);
   }
+
+  function getUserPosition() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setUserPosition({ latitude, longitude });
+    });
+  }
+
+  useEffect(() => {
+    getUserPosition();
+  }, []);
 
   return (
     <>
-      {isActived && <Header />}
+      {isActive && <Header />}
 
-      <div className={isActived ? styles.modalActived : styles.container}>
-        {isActived ? (
+      <div className={isActive ? styles.modalActived : styles.container}>
+        {isActive ? (
           <ScheduleService episodes={episodes} />
         ) : (
           <>

@@ -1,27 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import styles from '../styles/pages/Resume.module.css';
 
 const Resume = () => {
-  const [cacheData] = useState(() => {
-    const username = localStorage.getItem('username');
-    const service_name = localStorage.getItem('service_name');
-    const phone_number = localStorage.getItem('phone_number');
-    const province = localStorage.getItem('province');
-    const service_point = localStorage.getItem('service_point');
-    const month = localStorage.getItem('month');
-    const chosen_day = localStorage.getItem('chosen_day');
+  const [cacheData, setCacheData] = useState({});
 
-    return {
+  const handleUserInfo = useCallback(() => {
+    const username = JSON.parse(localStorage.getItem('username'));
+    const service_name = JSON.parse(localStorage.getItem('service_name'));
+    const phone_number = JSON.parse(localStorage.getItem('phone_number'));
+    const province = JSON.parse(localStorage.getItem('province'));
+    const service_point = JSON.parse(localStorage.getItem('service_point'));
+    const month = JSON.parse(localStorage.getItem('month'));
+    const chosen_day = JSON.parse(localStorage.getItem('chosen_day'));
+    const schedule_hour = JSON.parse(localStorage.getItem('schedule_hour'));
+
+    setCacheData({
       username,
-      service_point,
-      chosen_day,
-      month,
-      province,
       service_name,
       phone_number,
-    };
-  });
+      province,
+      service_point,
+      month,
+      chosen_day,
+      schedule_hour,
+    });
+  }, []);
+
+  useEffect(() => {
+    handleUserInfo();
+  }, []);
 
   return (
     <div className={styles.resumeContainer}>
@@ -55,9 +63,7 @@ const Resume = () => {
                 </li>
                 <li>
                   <span className={styles.hit}>Nome completo:</span>
-                  <span className={styles.hit}>
-                    {JSON.parse(cacheData.username)}
-                  </span>
+                  <span className={styles.hit}>{cacheData.username}</span>
                 </li>
                 <li>
                   <span className={styles.hit}>Data de nascimento:</span>

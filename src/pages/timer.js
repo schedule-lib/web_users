@@ -36,7 +36,7 @@ const Timer = () => {
   ];
 
   function setUserInfoInCache() {
-    localStorage.setItem('schedule_hour', schedule);
+    localStorage.setItem('schedule_hour', JSON.stringify(schedule));
   }
   const handleUserInfo = useCallback(() => {
     const service_name = JSON.parse(localStorage.getItem('service_name'));
