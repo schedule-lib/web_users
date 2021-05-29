@@ -17,8 +17,16 @@ function ScheduleService({ episodes }) {
     return false;
   });
 
+  function setUserInfoInCache() {
+    localStorage.clear();
+    localStorage.setItem('username', JSON.stringify(userName));
+    localStorage.setItem('service_name', JSON.stringify(serviceName));
+    localStorage.setItem('phone_number', JSON.stringify(phoneNumber));
+  }
+
   function handleSubmit(e) {
     if (serviceName && userName && phoneNumber) {
+      setUserInfoInCache();
       setCompleted(true);
       return;
     }
