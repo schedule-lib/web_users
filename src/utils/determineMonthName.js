@@ -1,49 +1,49 @@
 export default function determineCurrentMonth(currentMonth = 1) {
-  let currrentName = 'JANEIRO';
+  let currentName = 'JANEIRO';
 
   switch (currentMonth) {
     case 2:
-      currrentName = 'FEVEREIRO';
+      currentName = 'FEVEREIRO';
       break;
 
     case 3:
-      currrentName = 'MARÇO';
+      currentName = 'MARÇO';
       break;
 
     case 4:
-      currrentName = 'ABRIL';
+      currentName = 'ABRIL';
       break;
 
     case 5:
-      currrentName = 'MAIO';
+      currentName = 'MAIO';
       break;
 
     case 6:
-      currrentName = 'JUNHO';
+      currentName = 'JUNHO';
       break;
 
     case 7:
-      currrentName = 'JULHO';
+      currentName = 'JULHO';
       break;
 
     case 8:
-      currrentName = 'AGOSTO';
+      currentName = 'AGOSTO';
       break;
 
     case 9:
-      currrentName = 'SETEMBRO';
+      currentName = 'SETEMBRO';
       break;
 
     case 10:
-      currrentName = 'OUTUBRO';
+      currentName = 'OUTUBRO';
       break;
 
     case 11:
-      currrentName = 'NOVEMBRO';
+      currentName = 'NOVEMBRO';
       break;
 
     case 12:
-      currrentName = 'DEZEMBRO';
+      currentName = 'DEZEMBRO';
       break;
 
     default:
@@ -52,6 +52,6 @@ export default function determineCurrentMonth(currentMonth = 1) {
 
   return {
     id: currentMonth,
-    name: currrentName,
+    name: currentName,
   };
 }

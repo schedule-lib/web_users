@@ -51,23 +51,19 @@ const Resume = () => {
           <div className={styles.containerMap}>
             <div className={styles.mapGroup}>
               <strong>Código de Solicitação: 234589034850986</strong>
-              <p>Angola - LOCALIZAÇÃO/usuário</p>
+              <p>Angola - LOCALIZAÇÃO</p>
             </div>
 
             <div className={styles.mapGroup}>
               <strong>DADOS PESSOAIS</strong>
               <ul>
                 <li>
-                  <span className={styles.hit}>Número do BI:</span>
-                  <span className={styles.hit}>22354578980085632345</span>
-                </li>
-                <li>
                   <span className={styles.hit}>Nome completo:</span>
                   <span className={styles.hit}>{cacheData.username}</span>
                 </li>
                 <li>
-                  <span className={styles.hit}>Data de nascimento:</span>
-                  <span className={styles.hit}>10/10/2020</span>
+                  <span className={styles.hit}>Telefone de contacto:</span>
+                  <span className={styles.hit}>{cacheData.phone_number}</span>
                 </li>
               </ul>
             </div>
@@ -76,13 +72,14 @@ const Resume = () => {
               <strong>DADOS DO AGENDAMENTO</strong>
               <ul>
                 <li>
-                  <span className={styles.hit}>Data/Hora do Agendamento:</span>
-                  <span className={styles.hit}>22/01/2020 14:30</span>
+                  <span className={styles.hit}>Serviço:</span>
+                  <span className={styles.hit}>{cacheData.service_name}</span>
                 </li>
                 <li>
-                  <span className={styles.hit}>Posto:</span>
+                  <span className={styles.hit}>Data/Hora do Agendamento:</span>
                   <span className={styles.hit}>
-                    PSD/WSD/DWE - Posto de criação de BI
+                    {cacheData.chosen_day}/{cacheData.month}
+                    /2021 - {cacheData.schedule_hour}
                   </span>
                 </li>
               </ul>
@@ -90,11 +87,8 @@ const Resume = () => {
 
             <div className={styles.mapGroup}>
               <strong>ENDEREÇO DO POSTO</strong>
-              <p>
-                Rodovia Santos Dumont, Km 66, Edificio garagem, Bairro parque
-                viracopos, Aeroporto internacional de viracopos.
-              </p>
-              <p>Campinas - SP - 13183344</p>
+              <p>{cacheData.service_point}</p>
+              <p>{cacheData.province} - AOA</p>
             </div>
           </div>
         </div>
