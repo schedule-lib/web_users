@@ -19,6 +19,7 @@ div.localGroup div#top {
 
 div.localGroup div#bottom {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -257,7 +258,7 @@ div.scheduleBox div.floatBox {
   justify-content: center;
 }
 
-div.scheduleBox div.floatBox a {
+div.scheduleBox div.floatBox button {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -267,12 +268,13 @@ div.scheduleBox div.floatBox a {
   border-radius: 0.6rem;
   font-size: 1.3rem;
   font-weight: 500;
+  border: 0;
 
   color: var(--background);
   background: var(--primary);
 }
-div.scheduleBox div.floatBox a:hover,
-div.scheduleBox div.floatBox a:focus {
+div.scheduleBox div.floatBox button:hover,
+div.scheduleBox div.floatBox button:focus {
   filter: brightness(90%);
 }
 
@@ -296,6 +298,13 @@ div.scheduleBox div.floatBox a:focus {
   }
 }
 
+@media (max-width: 880px) {
+  div.scheduleBox div.floatBox {
+    position: initial;
+    margin: 1.6rem 0;
+  }
+}
+
 @media (max-width: 640px) {
   main.mainScheduler div.scheduleBox {
     display: block;
@@ -315,10 +324,10 @@ div.scheduleBox div.floatBox a:focus {
 }
 
 @media (max-width: 570px) {
-  div.scheduleBox div.floatBox {
+  /* div.scheduleBox div.floatBox {
     position: initial;
     margin: 1.6rem 0;
-  }
+  } */
 
   div.scheduleBox div.calendarControler div.calendarTop {
     margin-right: 5px;

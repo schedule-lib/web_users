@@ -105,10 +105,10 @@ const Home = ({ episodes }) => {
 
   // CALENDAR FUNCTIONS
   const handleCompleted = () => {
-    if (province?.value && servicePoint?.value && month.name && dayChoosed) {
+    if (province && servicePoint && month.name && dayChoosed) {
       setIsCompleted(true);
+      return;
     }
-    console.log('IMCOPLETED');
   };
   function handleButtonStatus() {
     if (province?.value && servicePoint?.value) {
@@ -139,11 +139,9 @@ const Home = ({ episodes }) => {
   }
   const handleChangeProvince = (selectedOption) => {
     setProvince(selectedOption);
-    console.log(`Option selected:`, selectedOption);
   };
   const handleChangeService = (selectedOption) => {
     setServicePoint(selectedOption);
-    console.log(`Option selected:`, selectedOption);
   };
   function handleDay(day, status) {
     if (status === 'available') {
@@ -267,9 +265,6 @@ const Home = ({ episodes }) => {
               {days.map((day) => (
                 <div
                   onClick={() => handleDay(day.day, day.status)}
-                  onKeyPress={() => {
-                    console.log('KeyPressed');
-                  }}
                   role="button"
                   key={day.day}
                   tabIndex={0}
@@ -285,7 +280,12 @@ const Home = ({ episodes }) => {
           {isCompleted && (
             <div className={styles.floatBox}>
               <Link href="/timer">
-                <a>Escolher horário</a>
+                <button
+                  onClick={() => console.log('CLICADO TEST ')}
+                  type="button"
+                >
+                  Escolher horário
+                </button>
               </Link>
             </div>
           )}
@@ -319,7 +319,6 @@ const Home = ({ episodes }) => {
 };
 
 // vai carregar de forma estática, sempre que for acessada a HOME
-
 export async function getServerSideProps() {
   const response = await api.get(`/services/search`, {
     params: {

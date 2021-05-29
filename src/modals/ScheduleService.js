@@ -24,7 +24,7 @@ function ScheduleService({ episodes }) {
     localStorage.setItem('phone_number', JSON.stringify(phoneNumber));
   }
 
-  function handleSubmit(e) {
+  function handleSubmit() {
     if (serviceName && userName && phoneNumber) {
       setUserInfoInCache();
       setCompleted(true);
