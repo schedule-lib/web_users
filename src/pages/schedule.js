@@ -8,9 +8,7 @@ import styles from '../styles/pages/Schedule.module.css';
 import Header from '../components/Header';
 
 const Home = ({ episodes }) => {
-  const [data, setData] = useState(episodes);
-  const [serviceID] = useState('7b8a9988-fa11-4dc7-9ffe-6c3937fd03f2');
-  const [servicesIsLoading, setServicesIsLoading] = useState(true);
+  const [data] = useState(episodes);
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [province, setProvince] = useState(null);
@@ -21,22 +19,10 @@ const Home = ({ episodes }) => {
 
     return determineCurrentMonth(currentMonth);
   });
-  const [dayChoosed, setDayChoosed] = useState(0);
+  const [chosenDay, setChosenDay] = useState(0);
 
-  const [provinceOptions, setProvinceOptions] = useState(() => {
-    const dto = servicesIsLoading
-      ? [{ value: 'carregando', label: 'carregando...' }]
-      : [];
-
-    return dto;
-  });
-  const [pointOptions, setPointOptions] = useState(() => {
-    const dto = servicesIsLoading
-      ? [{ value: 'carregando', label: 'carregando...' }]
-      : [];
-
-    return dto;
-  });
+  const [provinceOptions, setProvinceOptions] = useState([]);
+  const [pointOptions, setPointOptions] = useState([]);
 
   // CALENDAR INFO
   const days = [
@@ -102,10 +88,16 @@ const Home = ({ episodes }) => {
     setProvinceOptions(provinceFormatted);
     setPointOptions(pointFormatted);
   }, []);
+  function setUserInfoInCache() {
+    localStorage.setItem('province', JSON.stringify(province?.label));
+    localStorage.setItem('service_point', JSON.stringify(servicePoint?.label));
+    localStorage.setItem('month', JSON.stringify(month?.name));
+    localStorage.setItem('chosen_day', JSON.stringify(chosenDay));
+  }
 
   // CALENDAR FUNCTIONS
   const handleCompleted = () => {
-    if (province && servicePoint && month.name && dayChoosed) {
+    if (province && servicePoint && month.name && chosenDay) {
       setIsCompleted(true);
       return;
     }
@@ -145,12 +137,12 @@ const Home = ({ episodes }) => {
   };
   function handleDay(day, status) {
     if (status === 'available') {
-      setDayChoosed(+day);
+      setChosenDay(+day);
 
       return 1;
     }
     if (status === 'unavailable') {
-      setDayChoosed(0);
+      setChosenDay(0);
       alert('Seleciona apenas DIA DISPONÍVEL');
 
       return 0;
@@ -216,7 +208,7 @@ const Home = ({ episodes }) => {
             </div>
             <div id={styles.addrBottom}>
               <span>
-                dia {dayChoosed} de {month.name} 2021
+                dia {chosenDay} de {month.name} 2021
               </span>
             </div>
           </div>
@@ -269,7 +261,7 @@ const Home = ({ episodes }) => {
                   key={day.day}
                   tabIndex={0}
                   className={styles[day.status]}
-                  id={day.day === dayChoosed ? styles.dayChoosed : ''}
+                  id={day.day === chosenDay ? styles.chosenDay : ''}
                 >
                   {day.day}
                 </div>
@@ -280,10 +272,7 @@ const Home = ({ episodes }) => {
           {isCompleted && (
             <div className={styles.floatBox}>
               <Link href="/timer">
-                <button
-                  onClick={() => console.log('CLICADO TEST ')}
-                  type="button"
-                >
+                <button onClick={setUserInfoInCache} type="button">
                   Escolher horário
                 </button>
               </Link>

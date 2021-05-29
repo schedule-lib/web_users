@@ -242,7 +242,7 @@ div.calendarGroup div.calendarHitMapDays > div.selected {
   font-weight: 600;
 }
 
-div.calendarHitMapDays > div#dayChoosed {
+div.calendarHitMapDays > div#chosenDay {
   background-color: var(--green);
 }
 
