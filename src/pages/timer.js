@@ -7,6 +7,17 @@ import AlertBox from '../components/AlertBox';
 import styles from '../styles/pages/Timer.module.css';
 
 const Timer = () => {
+  const [cacheData] = useState(() => {
+    const service_name = localStorage.getItem('service_name');
+    const month = localStorage.getItem('month');
+    const chosen_day = localStorage.getItem('chosen_day');
+
+    return {
+      chosen_day,
+      month,
+      service_name,
+    };
+  });
   const [hourSelected, serHourSelected] = useState(Number(0));
   const [completed, setCompleted] = useState(false);
 
@@ -70,10 +81,13 @@ const Timer = () => {
         <div>
           <div className={styles.service}>
             <strong>Serviço a ser agendado</strong>
-            <span>renovar BI</span>
+            <span>{JSON.parse(cacheData.service_name)}</span>
             <hr />
             <div>
-              <p>Dia 03 de março de 2021</p>
+              <p>
+                Dia {JSON.parse(cacheData.chosen_day)} de{' '}
+                {JSON.parse(cacheData.month)} de 2021
+              </p>
               <span>as 17:30</span>
             </div>
           </div>
