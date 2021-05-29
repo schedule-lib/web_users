@@ -1,15 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
 
-import api from '../services/api';
-
-// import Header from '../components/Header';
 import styles from '../styles/modals/ScheduleServices.module.css';
 
-function ScheduleService() {
-  const [data, setData] = useState([]);
-  const [servicesIsLoading, setServicesIsLoading] = useState(true);
+function ScheduleService({ episodes }) {
+  const [data] = useState(episodes);
   const [serviceName, setServiceName] = useState('');
   const [userName, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -21,8 +17,6 @@ function ScheduleService() {
     return false;
   });
 
-  const uid = '0934tnwd9432rml02345';
-
   function handleSubmit(e) {
     if (serviceName && userName && phoneNumber) {
       setCompleted(true);
@@ -31,31 +25,6 @@ function ScheduleService() {
 
     alert('Preencha todos os campos necessários');
   }
-  const getDatas = useCallback(async () => {
-    setServicesIsLoading(true);
-
-    try {
-      const response = await api.get('/services');
-      const { data } = response;
-
-      const serialized = data.map((service) =>
-        Object.assign(service, {
-          addresses: JSON.parse(service.addresses),
-          months: JSON.parse(service.months),
-          required_field: JSON.parse(service.required_field),
-        })
-      );
-
-      setData(serialized);
-      setServicesIsLoading(false);
-    } catch (error) {
-      alert('Connection Error - ' + error.message);
-    }
-  }, [uid]);
-
-  useEffect(() => {
-    getDatas();
-  }, []);
 
   return (
     <div className={styles.scheduleContainer}>
@@ -69,15 +38,11 @@ function ScheduleService() {
               onChange={(e) => setServiceName(e.target.value)}
             >
               <option default>Selecione um serviço</option>
-              {servicesIsLoading ? (
-                <option default>CARREGANDO...</option>
-              ) : (
-                data.map((service) => (
-                  <option key={service.id} value={service.name}>
-                    {service.name}
-                  </option>
-                ))
-              )}
+              {data.map((service) => (
+                <option key={service.id} value={service.name}>
+                  {service.name}
+                </option>
+              ))}
             </select>
           </div>
 

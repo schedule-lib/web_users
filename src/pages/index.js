@@ -1,12 +1,11 @@
 import { useState } from 'react';
+import api from '../services/api';
+
 import Header from '../components/Header';
-
 import styles from '../styles/Home.module.css';
-
-// MODALs
 import ScheduleService from '../modals/ScheduleService';
 
-export default function Home() {
+export default function Home({ episodes }) {
   const [isActived, setIsActived] = useState(false);
 
   function handleModal() {
@@ -19,7 +18,7 @@ export default function Home() {
 
       <div className={isActived ? styles.modalActived : styles.container}>
         {isActived ? (
-          <ScheduleService />
+          <ScheduleService episodes={episodes} />
         ) : (
           <>
             <div className={styles.landInfo}>
@@ -48,4 +47,23 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const response = await api.get('/services');
+  const { data } = response;
+
+  const serialized = data.map((service) =>
+    Object.assign(service, {
+      addresses: JSON.parse(service.addresses),
+      months: JSON.parse(service.months),
+      required_field: JSON.parse(service.required_field),
+    })
+  );
+
+  return {
+    props: {
+      episodes: serialized,
+    },
+  };
 }
