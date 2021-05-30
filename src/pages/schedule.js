@@ -9,7 +9,11 @@ import determineCurrentMonth from '../utils/determineMonthName';
 import styles from '../styles/pages/Schedule.module.css';
 import Header from '../components/Header';
 
-const Schedule = ({ episodes }) => {
+const Schedule = ({ episodes, gotError }) => {
+  if (gotError) {
+    return <h1>SERVIÇO NÃO DISPONÍVEL!</h1>;
+  }
+
   const [data] = useState(episodes);
   const [days, setDays] = useState(() => {
     const [freeDaysByMonth] = useFreeDays();
@@ -306,10 +310,19 @@ const Schedule = ({ episodes }) => {
 };
 
 // vai carregar de forma estática, sempre que for acessada a HOME
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
+  const agency_service = query.service_name;
+  if (!agency_service) {
+    return {
+      props: {
+        episodes: [],
+        gotError: true,
+      },
+    };
+  }
   const response = await api.get(`/services/search`, {
     params: {
-      service_name: 'Matrícula de novos alunos - UNASP',
+      service_name: String(agency_service).trim(),
     },
   });
   const { data } = response;
@@ -322,6 +335,7 @@ export async function getServerSideProps() {
   return {
     props: {
       episodes: data,
+      gotError: false,
     },
   };
 }

@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import api from '../services/api';
 import { useFreeSchedule } from '../config';
+import { generateUniqueId } from '../utils';
 
 import Header from '../components/Header';
 import AlertBox from '../components/AlertBox';
@@ -12,12 +13,14 @@ const Timer = () => {
   const [cacheData, setCacheData] = useState({});
   const [hourSelected, serHourSelected] = useState(Number(0));
   const [schedule, setSchedule] = useState(null);
+  const [code, setCode] = useState(null);
   const [completed, setCompleted] = useState(false);
 
   const hours = useFreeSchedule();
 
   function setUserInfoInCache() {
     localStorage.setItem('schedule_hour', JSON.stringify(schedule));
+    localStorage.setItem('code', JSON.stringify(code));
   }
   const handleUserInfo = useCallback(() => {
     const service_name = JSON.parse(localStorage.getItem('service_name'));
@@ -44,7 +47,7 @@ const Timer = () => {
         .post(
           '/scheduler',
           {
-            code: 'NULL-7H5G',
+            code,
             hour: String(schedule),
             phone_number: cacheData.phone_number,
             point: cacheData.service_point,
@@ -82,7 +85,7 @@ const Timer = () => {
     }
   }
   function completeSchedule() {
-    if (hourSelected !== 0) {
+    if (hourSelected !== 0 && code) {
       setUserInfoInCache();
       closeSchedule();
 
@@ -98,6 +101,7 @@ const Timer = () => {
 
   useEffect(() => {
     handleUserInfo();
+    setCode(generateUniqueId());
   }, []);
 
   return (

@@ -102,7 +102,7 @@ const Resume = () => {
 
         <div className={styles.loadFile}>
           <button onClick={closeSchedule} type="button">
-            Baixar uma cópia
+            Iniciar novo agendamento
           </button>
         </div>
       </div>

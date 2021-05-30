@@ -89,7 +89,9 @@ function ScheduleService({ episodes }) {
       <div className={styles.controls}>
         <button onClick={handleSubmit} className={styles.default} type="submit">
           {completed ? (
-            <Link href="/schedule">Iniciar agendamento</Link>
+            <Link href={`/schedule?service_name=${serviceName}`}>
+              Iniciar agendamento
+            </Link>
           ) : (
             'Iniciar agendamento'
           )}
