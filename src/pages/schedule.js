@@ -86,6 +86,7 @@ const Schedule = ({ episodes }) => {
     if (month.id === 12) {
       return;
     }
+    setChosenDay(+0);
 
     const currentMonth = month.id;
     const nextMonth = currentMonth + 1;
@@ -97,6 +98,7 @@ const Schedule = ({ episodes }) => {
     if (month.id === 1) {
       return;
     }
+    setChosenDay(+0);
 
     const currentMonth = month.id;
     const prevMonth = currentMonth - 1;
