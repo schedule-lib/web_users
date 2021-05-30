@@ -72,7 +72,6 @@ export async function getServerSideProps() {
     Object.assign(service, {
       addresses: JSON.parse(service.addresses),
       months: JSON.parse(service.months),
-      required_field: JSON.parse(service.required_field),
     })
   );
 

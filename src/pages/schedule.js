@@ -3,12 +3,19 @@ import Link from 'next/link';
 import Select from 'react-select';
 import api from '../services/api';
 
+import { useFreeDays, useWeekDays } from '../config';
+
 import determineCurrentMonth from '../utils/determineMonthName';
 import styles from '../styles/pages/Schedule.module.css';
 import Header from '../components/Header';
 
 const Home = ({ episodes }) => {
   const [data] = useState(episodes);
+  const [days, setDays] = useState(() => {
+    const [freeDaysByMonth] = useFreeDays();
+
+    return freeDaysByMonth;
+  });
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [province, setProvince] = useState(null);
@@ -25,47 +32,7 @@ const Home = ({ episodes }) => {
   const [pointOptions, setPointOptions] = useState([]);
 
   // CALENDAR INFO
-  const days = [
-    { day: 1, status: 'available' },
-    { day: 2, status: 'available' },
-    { day: 3, status: 'available' },
-    { day: 4, status: 'available' },
-    { day: 5, status: 'unavailable' },
-    { day: 6, status: 'available' },
-    { day: 7, status: 'unavailable' },
-    { day: 8, status: 'unavailable' },
-    { day: 9, status: 'available' },
-    { day: 10, status: 'available' },
-    { day: 11, status: 'available' },
-    { day: 12, status: 'unavailable' },
-    { day: 13, status: 'unavailable' },
-    { day: 14, status: 'available' },
-    { day: 15, status: 'available' },
-    { day: 16, status: 'unavailable' },
-    { day: 17, status: 'unavailable' },
-    { day: 18, status: 'available' },
-    { day: 19, status: 'available' },
-    { day: 20, status: 'available' },
-    { day: 21, status: 'unavailable' },
-    { day: 22, status: 'available' },
-    { day: 23, status: 'available' },
-    { day: 24, status: 'unavailable' },
-    { day: 25, status: 'available' },
-    { day: 26, status: 'unavailable' },
-    { day: 27, status: 'available' },
-    { day: 28, status: 'unavailable' },
-    { day: 29, status: 'available' },
-    { day: 30, status: 'available' },
-  ];
-  const weekDays = [
-    { id: 'segunda', name: 'SEGUNDA' },
-    { id: 'terca', name: 'TERÇA' },
-    { id: 'quarta', name: 'QUARTA' },
-    { id: 'quinta', name: 'QUINTA' },
-    { id: 'sexta', name: 'SEXTA' },
-    { id: 'sabado', name: 'SÁBADO' },
-    { id: 'domingo', name: 'DOMINGO' },
-  ];
+  const weekDays = useWeekDays();
 
   const setFormattedSelectionData = useCallback(async () => {
     const provinceFormatted = data?.addresses.map((address) => {
@@ -95,6 +62,12 @@ const Home = ({ episodes }) => {
     localStorage.setItem('chosen_day', JSON.stringify(chosenDay));
   }
 
+  // CALENDAR hits
+  function changeCalendarDays(selectedMonth) {
+    const [freeDaysByMonth, allDays] = useFreeDays(selectedMonth);
+    setDays(freeDaysByMonth);
+  }
+
   // CALENDAR FUNCTIONS
   const handleCompleted = () => {
     if (province && servicePoint && month.name && chosenDay) {
@@ -118,6 +91,7 @@ const Home = ({ episodes }) => {
     const nextMonth = currentMonth + 1;
 
     setMonth(() => determineCurrentMonth(nextMonth));
+    changeCalendarDays(determineCurrentMonth(nextMonth).name);
   }
   function handlePrevMonth() {
     if (month.id === 1) {
@@ -128,6 +102,7 @@ const Home = ({ episodes }) => {
     const prevMonth = currentMonth - 1;
 
     setMonth(() => determineCurrentMonth(prevMonth));
+    changeCalendarDays(determineCurrentMonth(prevMonth).name);
   }
   const handleChangeProvince = (selectedOption) => {
     setProvince(selectedOption);
@@ -155,7 +130,7 @@ const Home = ({ episodes }) => {
 
   useEffect(() => {
     handleCompleted();
-  }, [handleCompleted]);
+  }, []);
 
   return (
     <div className={styles.ScheduleContainer}>
@@ -254,18 +229,19 @@ const Home = ({ episodes }) => {
             </div>
 
             <div className={styles.calendarHitMapDays}>
-              {days.map((day) => (
-                <div
-                  onClick={() => handleDay(day.day, day.status)}
-                  role="button"
-                  key={day.day}
-                  tabIndex={0}
-                  className={styles[day.status]}
-                  id={day.day === chosenDay ? styles.chosenDay : ''}
-                >
-                  {day.day}
-                </div>
-              ))}
+              {days.length >= 1 &&
+                days.map((day) => (
+                  <div
+                    onClick={() => handleDay(day.day, day.status)}
+                    role="button"
+                    key={day.day}
+                    tabIndex={0}
+                    className={styles[day.status]}
+                    id={day.day === chosenDay ? styles.chosenDay : ''}
+                  >
+                    {day.day}
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -311,7 +287,7 @@ const Home = ({ episodes }) => {
 export async function getServerSideProps() {
   const response = await api.get(`/services/search`, {
     params: {
-      service_name: 'Renovar pasasporte',
+      service_name: 'Matrícula de novos alunos - UNASP',
     },
   });
   const { data } = response;
@@ -319,7 +295,6 @@ export async function getServerSideProps() {
   Object.assign(data, {
     addresses: JSON.parse(data.addresses),
     months: JSON.parse(data.months),
-    required_field: JSON.parse(data.required_field),
   });
 
   return {
