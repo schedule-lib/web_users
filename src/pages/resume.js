@@ -1,9 +1,12 @@
+import { useRouter } from 'next/router';
 import React, { useState, useCallback, useEffect } from 'react';
 
 import styles from '../styles/pages/Resume.module.css';
 
 const Resume = () => {
   const [cacheData, setCacheData] = useState({});
+
+  const router = useRouter();
 
   const handleUserInfo = useCallback(() => {
     const username = JSON.parse(localStorage.getItem('username'));
@@ -26,6 +29,10 @@ const Resume = () => {
       schedule_hour,
     });
   }, []);
+  const closeSchedule = () => {
+    localStorage.clear();
+    router.push('/');
+  };
 
   useEffect(() => {
     handleUserInfo();
@@ -94,7 +101,9 @@ const Resume = () => {
         </div>
 
         <div className={styles.loadFile}>
-          <button type="button">Baixar uma cópia</button>
+          <button onClick={closeSchedule} type="button">
+            Baixar uma cópia
+          </button>
         </div>
       </div>
     </div>
