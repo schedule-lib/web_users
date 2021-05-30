@@ -114,7 +114,9 @@ const Timer = () => {
                     handleSelectHour(hour.id, hour.status, hour.hour)
                   }
                   className={styles[hour.status]}
-                  id={hour.id === hourSelected && styles.hourSelected}
+                  id={
+                    hour.id === hourSelected ? styles.hourSelected : undefined
+                  }
                 >
                   {hour.hour}
                 </div>
