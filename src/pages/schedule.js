@@ -16,6 +16,7 @@ const Schedule = ({ episodes }) => {
 
     return freeDaysByMonth;
   });
+  const [prevStatus, setPreviousStatus] = useState(true);
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [province, setProvince] = useState(null);
@@ -82,6 +83,21 @@ const Schedule = ({ episodes }) => {
 
     return true;
   }
+  function handlePrevButtonStatus() {
+    if (province?.value && servicePoint?.value) {
+      const date = new Date();
+      const currentMonth = date.getMonth() + 1;
+      const wannaGo = month.id;
+
+      if (wannaGo <= currentMonth) {
+        setPreviousStatus(true);
+        return;
+      }
+      setPreviousStatus(false);
+      return;
+    }
+    setPreviousStatus(true);
+  }
   function handleNextMonth() {
     if (month.id === 12) {
       return;
@@ -129,6 +145,10 @@ const Schedule = ({ episodes }) => {
   useEffect(() => {
     setFormattedSelectionData();
   }, []);
+
+  useEffect(() => {
+    handlePrevButtonStatus();
+  }, [handlePrevButtonStatus]);
 
   useEffect(() => {
     handleCompleted();
@@ -195,7 +215,7 @@ const Schedule = ({ episodes }) => {
           <div className={styles.calendarControler}>
             <div className={styles.calendarTop}>
               <button
-                disabled={handleButtonStatus()}
+                disabled={prevStatus}
                 onClick={handlePrevMonth}
                 className={styles.buttonController}
                 type="button"
