@@ -9,7 +9,7 @@ import determineCurrentMonth from '../utils/determineMonthName';
 import styles from '../styles/pages/Schedule.module.css';
 import Header from '../components/Header';
 
-const Home = ({ episodes }) => {
+const Schedule = ({ episodes }) => {
   const [data] = useState(episodes);
   const [days, setDays] = useState(() => {
     const [freeDaysByMonth] = useFreeDays();
@@ -130,7 +130,7 @@ const Home = ({ episodes }) => {
 
   useEffect(() => {
     handleCompleted();
-  }, []);
+  }, [handleCompleted]);
 
   return (
     <div className={styles.ScheduleContainer}>
@@ -304,4 +304,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+export default Schedule;

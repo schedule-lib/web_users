@@ -394,7 +394,6 @@ const useFreeDays = (currentMonth = 'maio') => {
     .trim();
 
   let actual = [];
-  console.log(month);
   if (freeDays[month]) {
     actual = freeDays[month];
   }
