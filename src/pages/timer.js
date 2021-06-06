@@ -9,7 +9,16 @@ import AlertBox from '../components/AlertBox';
 // STATICs
 import styles from '../styles/pages/Timer.module.css';
 
-const Timer = () => {
+const Timer = ({ episodes, gotError }) => {
+  if (gotError) {
+    return <h1>SERVIÇO NÃO DISPONÍVEL!</h1>;
+  }
+
+  const [scheduleData] = useState(() => {
+    const schedules = JSON.parse(episodes.schedule);
+
+    return schedules;
+  });
   const [cacheData, setCacheData] = useState({});
   const [hourSelected, serHourSelected] = useState(Number(0));
   const [schedule, setSchedule] = useState(null);
@@ -129,7 +138,7 @@ const Timer = () => {
             </div>
 
             <div className={styles.hoursMap}>
-              {hours.map((hour) => (
+              {scheduleData.map((hour) => (
                 <div
                   key={hour.id}
                   onClick={() =>
@@ -154,5 +163,35 @@ const Timer = () => {
     </>
   );
 };
+
+export async function getServerSideProps({ query }) {
+  const agency_service = query.service_name;
+  if (!agency_service) {
+    return {
+      props: {
+        episodes: [],
+        gotError: true,
+      },
+    };
+  }
+  const response = await api.get(`/services/search`, {
+    params: {
+      service_name: String(agency_service).trim(),
+    },
+  });
+  const { data } = response;
+
+  Object.assign(data, {
+    addresses: JSON.parse(data.addresses),
+    months: JSON.parse(data.months),
+  });
+
+  return {
+    props: {
+      episodes: data,
+      gotError: false,
+    },
+  };
+}
 
 export default Timer;

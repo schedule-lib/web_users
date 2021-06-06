@@ -16,7 +16,11 @@ const Schedule = ({ episodes, gotError }) => {
 
   const [data] = useState(episodes);
   const [days, setDays] = useState(() => {
-    const [freeDaysByMonth] = useFreeDays();
+    const [freeDaysByMonth] = useFreeDays(
+      episodes.total_people,
+      'junho',
+      episodes.date_months
+    );
 
     return freeDaysByMonth;
   });
@@ -69,7 +73,11 @@ const Schedule = ({ episodes, gotError }) => {
 
   // CALENDAR hits
   function changeCalendarDays(selectedMonth) {
-    const [freeDaysByMonth, allDays] = useFreeDays(selectedMonth);
+    const [freeDaysByMonth] = useFreeDays(
+      episodes.total_people,
+      selectedMonth,
+      episodes.date_months
+    );
     setDays(freeDaysByMonth);
   }
 
@@ -330,6 +338,8 @@ export async function getServerSideProps({ query }) {
   Object.assign(data, {
     addresses: JSON.parse(data.addresses),
     months: JSON.parse(data.months),
+    scheduled_today: JSON.parse(data.scheduled_today),
+    date_months: JSON.parse(data.date_months),
   });
 
   return {
