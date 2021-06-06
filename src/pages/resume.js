@@ -9,6 +9,7 @@ const Resume = () => {
   const router = useRouter();
 
   const handleUserInfo = useCallback(() => {
+    const code = JSON.parse(localStorage.getItem('code'));
     const username = JSON.parse(localStorage.getItem('username'));
     const service_name = JSON.parse(localStorage.getItem('service_name'));
     const phone_number = JSON.parse(localStorage.getItem('phone_number'));
@@ -19,6 +20,7 @@ const Resume = () => {
     const schedule_hour = JSON.parse(localStorage.getItem('schedule_hour'));
 
     setCacheData({
+      code,
       username,
       service_name,
       phone_number,
@@ -57,7 +59,7 @@ const Resume = () => {
 
           <div className={styles.containerMap}>
             <div className={styles.mapGroup}>
-              <strong>Código de Solicitação: 234589034850986</strong>
+              <strong>Código de Solicitação: {cacheData.code}</strong>
               <p>Angola - LOCALIZAÇÃO</p>
             </div>
 
