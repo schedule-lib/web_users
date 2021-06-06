@@ -281,7 +281,7 @@ const Schedule = ({ episodes, gotError }) => {
 
           {isCompleted && (
             <div className={styles.floatBox}>
-              <Link href="/timer">
+              <Link href={`/timer?service_name=${data.name}`}>
                 <button onClick={setUserInfoInCache} type="button">
                   Escolher horário
                 </button>
