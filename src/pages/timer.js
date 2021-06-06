@@ -72,9 +72,15 @@ const Timer = ({ episodes, gotError }) => {
           }
         )
         .then(() => {
+          api.patch(`/scheduler/schedule/${episodes.id}`, {
+            hour: String(schedule),
+          });
+
           api
-            .patch(`/scheduler/schedule/${episodes.id}`, {
-              hour: String(schedule),
+            .patch(`/scheduler/day/${episodes.id}`, {
+              day: 20,
+              ChosenMonth: 'junho',
+              max: 10,
             })
             .then(() => {
               setCompleted(true);
