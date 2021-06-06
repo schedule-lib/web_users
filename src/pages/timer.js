@@ -72,7 +72,13 @@ const Timer = ({ episodes, gotError }) => {
           }
         )
         .then(() => {
-          setCompleted(true);
+          api
+            .patch(`/scheduler/schedule/${episodes.id}`, {
+              hour: String(schedule),
+            })
+            .then(() => {
+              setCompleted(true);
+            });
         });
     } catch (error) {
       alert('Error: ' + error.message);
@@ -154,7 +160,11 @@ const Timer = ({ episodes, gotError }) => {
               ))}
             </div>
 
-            <button onClick={completeSchedule} type="button">
+            <button
+              disabled={completed}
+              onClick={completeSchedule}
+              type="button"
+            >
               Concluir agendamento
             </button>
           </div>
