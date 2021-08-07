@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
 import api from '../services/api';
 
 import Header from '../components/Header';
@@ -23,6 +25,11 @@ export default function Home({ episodes }) {
     });
   }
 
+  const history = useRouter();
+  async function navigateToNewSchedule() {
+    await history.push('/new/schedule');
+  }
+
   useEffect(() => {
     getUserPosition();
   }, []);
@@ -42,7 +49,7 @@ export default function Home({ episodes }) {
               <span>facilite o seu processo</span>
 
               <button
-                onClick={handleModal}
+                onClick={navigateToNewSchedule}
                 type="button"
                 className={styles.default}
               >

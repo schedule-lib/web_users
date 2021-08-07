@@ -93,6 +93,14 @@
 .mainContent p a {
   color: #e559f9;
 }
+
+.mainContent form > div {
+  margin-bottom: 1rem;
+}
+.mainContent form > div > strong {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
 .mainContent form > input {
   height: 56px;
   border-radius: 8px;
