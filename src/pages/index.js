@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
-import api from '../services/api';
+import api from "../services/api";
 
-import Header from '../components/Header';
-import styles from '../styles/Home.module.css';
-import ScheduleService from '../modals/ScheduleService';
+import Header from "../components/Header";
+import styles from "../styles/Home.module.css";
+import ScheduleService from "../modals/ScheduleService";
 
 export default function Home({ episodes }) {
   const [isActive, setIsActive] = useState(false);
@@ -13,7 +13,7 @@ export default function Home({ episodes }) {
 
   function handleModal() {
     if (!isActive && userPosition?.latitude) {
-      localStorage.setItem('user_position', JSON.stringify(userPosition));
+      localStorage.setItem("user_position", JSON.stringify(userPosition));
     }
     setIsActive(!isActive);
   }
@@ -27,7 +27,7 @@ export default function Home({ episodes }) {
 
   const history = useRouter();
   async function navigateToNewSchedule() {
-    await history.push('/new/schedule');
+    await history.push("/new/schedule");
   }
 
   useEffect(() => {
@@ -72,19 +72,11 @@ export default function Home({ episodes }) {
 }
 
 export async function getServerSideProps() {
-  const response = await api.get('/services');
-  const { data } = response;
-
-  const serialized = data.map((service) =>
-    Object.assign(service, {
-      addresses: JSON.parse(service.addresses),
-      months: JSON.parse(service.months),
-    })
-  );
+  const { data } = await api.get("/services");
 
   return {
     props: {
-      episodes: serialized,
+      episodes: data,
     },
   };
 }

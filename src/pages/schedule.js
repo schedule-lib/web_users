@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import Select from 'react-select';
-import api from '../services/api';
+import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import Select from "react-select";
+import api from "../services/api";
 
-import { useFreeDays, useWeekDays } from '../config';
+import { useFreeDays, useWeekDays } from "../config";
 
-import determineCurrentMonth from '../utils/determineMonthName';
-import styles from '../styles/pages/Schedule.module.css';
-import Header from '../components/Header';
+import determineCurrentMonth from "../utils/determineMonthName";
+import styles from "../styles/pages/Schedule.module.css";
+import Header from "../components/Header";
 
 const Schedule = ({ episodes, gotError }) => {
   if (gotError) {
@@ -18,7 +18,7 @@ const Schedule = ({ episodes, gotError }) => {
   const [days, setDays] = useState(() => {
     const [freeDaysByMonth] = useFreeDays(
       episodes.total_people,
-      'junho',
+      "junho",
       episodes.date_months
     );
 
@@ -48,16 +48,16 @@ const Schedule = ({ episodes, gotError }) => {
       return {
         label: String(address.province),
         value: String(address.province)
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, ''),
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, ""),
       };
     });
     const pointFormatted = data?.addresses.map((address) => {
       return {
         label: String(address.point),
         value: String(address.point)
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, ''),
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, ""),
       };
     });
 
@@ -65,10 +65,10 @@ const Schedule = ({ episodes, gotError }) => {
     setPointOptions(pointFormatted);
   }, []);
   function setUserInfoInCache() {
-    localStorage.setItem('province', JSON.stringify(province?.label));
-    localStorage.setItem('service_point', JSON.stringify(servicePoint?.label));
-    localStorage.setItem('month', JSON.stringify(month?.name));
-    localStorage.setItem('chosen_day', JSON.stringify(chosenDay));
+    localStorage.setItem("province", JSON.stringify(province?.label));
+    localStorage.setItem("service_point", JSON.stringify(servicePoint?.label));
+    localStorage.setItem("month", JSON.stringify(month?.name));
+    localStorage.setItem("chosen_day", JSON.stringify(chosenDay));
   }
 
   // CALENDAR hits
@@ -141,14 +141,14 @@ const Schedule = ({ episodes, gotError }) => {
     setServicePoint(selectedOption);
   };
   function handleDay(day, status) {
-    if (status === 'available') {
+    if (status === "available") {
       setChosenDay(+day);
 
       return 1;
     }
-    if (status === 'unavailable') {
+    if (status === "unavailable") {
       setChosenDay(0);
-      alert('Seleciona apenas DIA DISPONÍVEL');
+      alert("Seleciona apenas DIA DISPONÍVEL");
 
       return 0;
     }
@@ -207,9 +207,9 @@ const Schedule = ({ episodes, gotError }) => {
               @<span>Área de localização</span>
             </div>
             <div id={styles.addrBottom}>
-              <span>{servicePoint?.label || 'Ponto de atendimento'}</span>
+              <span>{servicePoint?.label || "Ponto de atendimento"}</span>
               {/* <span>Rua Dr. Antônio Álvares Lobo n*456 - Botafogo</span> */}
-              <span>{province?.label || 'Província de atendimento'}</span>
+              <span>{province?.label || "Província de atendimento"}</span>
             </div>
             <hr />
             <div id={styles.addrTop}>
@@ -271,7 +271,7 @@ const Schedule = ({ episodes, gotError }) => {
                     key={day.day}
                     tabIndex={0}
                     className={styles[day.status]}
-                    id={day.day === chosenDay ? styles.chosenDay : ''}
+                    id={day.day === chosenDay ? styles.chosenDay : ""}
                   >
                     {day.day}
                   </div>
@@ -328,23 +328,15 @@ export async function getServerSideProps({ query }) {
       },
     };
   }
-  const response = await api.get(`/services/search`, {
+  const { data: service } = await api.get(`/services/search`, {
     params: {
       service_name: String(agency_service).trim(),
     },
   });
-  const { data } = response;
-
-  Object.assign(data, {
-    addresses: JSON.parse(data.addresses),
-    months: JSON.parse(data.months),
-    scheduled_today: JSON.parse(data.scheduled_today),
-    date_months: JSON.parse(data.date_months),
-  });
 
   return {
     props: {
-      episodes: data,
+      episodes: service,
       gotError: false,
     },
   };

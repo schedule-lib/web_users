@@ -1,24 +1,20 @@
-import { useCallback, useState, useEffect } from 'react';
-import api from '../services/api';
-import { useFreeSchedule } from '../config';
-import { generateUniqueId } from '../utils';
+import { useCallback, useState, useEffect } from "react";
+import api from "../services/api";
+import { useFreeSchedule } from "../config";
+import { generateUniqueId } from "../utils";
 
-import Header from '../components/Header';
-import AlertBox from '../components/AlertBox';
+import Header from "../components/Header";
+import AlertBox from "../components/AlertBox";
 
 // STATICs
-import styles from '../styles/pages/Timer.module.css';
+import styles from "../styles/pages/Timer.module.css";
 
 const Timer = ({ episodes, gotError }) => {
   if (gotError) {
     return <h1>SERVIÇO NÃO DISPONÍVEL!</h1>;
   }
 
-  const [scheduleData] = useState(() => {
-    const schedules = JSON.parse(episodes.schedule);
-
-    return schedules;
-  });
+  const [scheduleData] = useState(() => episodes.schedule);
   const [cacheData, setCacheData] = useState({});
   const [hourSelected, serHourSelected] = useState(Number(0));
   const [schedule, setSchedule] = useState(null);
@@ -28,17 +24,17 @@ const Timer = ({ episodes, gotError }) => {
   const hours = useFreeSchedule();
 
   function setUserInfoInCache() {
-    localStorage.setItem('schedule_hour', JSON.stringify(schedule));
-    localStorage.setItem('code', JSON.stringify(code));
+    localStorage.setItem("schedule_hour", JSON.stringify(schedule));
+    localStorage.setItem("code", JSON.stringify(code));
   }
   const handleUserInfo = useCallback(() => {
-    const service_name = JSON.parse(localStorage.getItem('service_name'));
-    const month = JSON.parse(localStorage.getItem('month'));
-    const chosen_day = JSON.parse(localStorage.getItem('chosen_day'));
-    const username = JSON.parse(localStorage.getItem('username'));
-    const phone_number = JSON.parse(localStorage.getItem('phone_number'));
-    const province = JSON.parse(localStorage.getItem('province'));
-    const service_point = JSON.parse(localStorage.getItem('service_point'));
+    const service_name = JSON.parse(localStorage.getItem("service_name"));
+    const month = JSON.parse(localStorage.getItem("month"));
+    const chosen_day = JSON.parse(localStorage.getItem("chosen_day"));
+    const username = JSON.parse(localStorage.getItem("username"));
+    const phone_number = JSON.parse(localStorage.getItem("phone_number"));
+    const province = JSON.parse(localStorage.getItem("province"));
+    const service_point = JSON.parse(localStorage.getItem("service_point"));
 
     setCacheData({
       chosen_day,
@@ -54,7 +50,7 @@ const Timer = ({ episodes, gotError }) => {
     try {
       await api
         .post(
-          '/scheduler',
+          "/scheduler",
           {
             code,
             hour: String(schedule),
@@ -63,11 +59,11 @@ const Timer = ({ episodes, gotError }) => {
             province: cacheData.province,
             service: cacheData.service_name,
             username: cacheData.username,
-            date: cacheData.chosen_day + '/' + cacheData.month + '/2021',
+            date: cacheData.chosen_day + "/" + cacheData.month + "/2021",
           },
           {
             headers: {
-              Authorization: 'Bearer 234t43563bv456b5yy564r6v7567',
+              Authorization: "Bearer 234t43563bv456b5yy564r6v7567",
             },
           }
         )
@@ -79,7 +75,7 @@ const Timer = ({ episodes, gotError }) => {
           api
             .patch(`/scheduler/day/${episodes.id}`, {
               day: 20,
-              ChosenMonth: 'junho',
+              ChosenMonth: "junho",
               max: 10,
             })
             .then(() => {
@@ -87,20 +83,20 @@ const Timer = ({ episodes, gotError }) => {
             });
         });
     } catch (error) {
-      alert('Error: ' + error.message);
+      alert("Error: " + error.message);
     }
   }
 
   function handleSelectHour(hour, status, to) {
-    if (status === 'available') {
+    if (status === "available") {
       serHourSelected(+hour);
       setSchedule(to);
 
       return 1;
     }
-    if (status === 'unavailable') {
+    if (status === "unavailable") {
       serHourSelected(Number(0));
-      alert('Seleciona apenas HÓRARIO DISPONÍVEL');
+      alert("Seleciona apenas HÓRARIO DISPONÍVEL");
 
       return 0;
     }
@@ -113,7 +109,7 @@ const Timer = ({ episodes, gotError }) => {
       return 1;
     }
 
-    alert('SELECIONA UM HORÁRIO DISPONÍVEL');
+    alert("SELECIONA UM HORÁRIO DISPONÍVEL");
     return 0;
   }
   function handleComplete() {
@@ -150,7 +146,7 @@ const Timer = ({ episodes, gotError }) => {
             </div>
 
             <div className={styles.hoursMap}>
-              {scheduleData.map((hour) => (
+              {scheduleData?.map((hour) => (
                 <div
                   key={hour.id}
                   onClick={() =>
@@ -190,16 +186,11 @@ export async function getServerSideProps({ query }) {
       },
     };
   }
-  const response = await api.get(`/services/search`, {
+
+  const { data } = await api.get(`/services/search`, {
     params: {
       service_name: String(agency_service).trim(),
     },
-  });
-  const { data } = response;
-
-  Object.assign(data, {
-    addresses: JSON.parse(data.addresses),
-    months: JSON.parse(data.months),
   });
 
   return {
